@@ -1,0 +1,747 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101747">
+    <title>Roleta do Amor do Pablo e da Val</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #111747;
+            --gold: #f5bd3d;
+            --pink: #df3150;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background: #080808;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .app {
+            width: min(100%, 500px);
+            min-height: 680px;
+            overflow: hidden;
+            background: #fffdfd;
+            box-shadow: 0 18px 55px rgba(0,0,0,.45);
+        }
+
+        .topbar {
+            min-height: 88px;
+            padding: 15px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            background: var(--navy);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: white;
+            font-size: 25px;
+            background: linear-gradient(145deg, #ff7596, #d92f65);
+        }
+
+        .brand h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .brand p {
+            margin: 4px 0 0;
+            color: #c9cce4;
+            font-size: 12px;
+        }
+
+        .header-heart {
+            color: #f6c95f;
+            font-size: 25px;
+        }
+
+        .content {
+            padding: 27px 22px 25px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 4px 0 7px;
+            font-size: clamp(28px, 6vw, 38px);
+            font-weight: 400;
+            color: #101010;
+        }
+
+        .subtitle {
+            margin: 0 0 25px;
+            color: #88818b;
+            font-size: 13px;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: min(100%, 420px);
+            aspect-ratio: 1;
+            margin: 0 auto 23px;
+            padding: 6px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffe18a, #e4a72c);
+            box-shadow: 0 7px 18px rgba(0,0,0,.16);
+        }
+
+        /* GIRO GARANTIDO DE 8 SEGUNDOS */
+        .wheel {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 8s cubic-bezier(.10, .72, .10, 1) !important;
+            will-change: transform;
+        }
+
+        .segment {
+            stroke: #fff8e9;
+            stroke-width: 2.2;
+        }
+
+        .segment-label {
+            fill: white;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            paint-order: stroke;
+            stroke: rgba(0,0,0,.65);
+            stroke-width: 2px;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+
+        .pointer {
+            position: absolute;
+            z-index: 5;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 27px solid #f2b82f;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,.3));
+        }
+
+        .heart-button {
+            position: absolute;
+            z-index: 6;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 31%;
+            aspect-ratio: 1;
+            border: 5px solid white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            cursor: pointer;
+            background: radial-gradient(circle, white, #fff0f3 72%, #f6cbd5);
+            box-shadow: 0 2px 12px rgba(0,0,0,.25);
+        }
+
+        .heart-button:active {
+            transform: translate(-50%, -50%) scale(.94);
+        }
+
+        .heart-button:disabled {
+            cursor: wait;
+        }
+
+        .heart {
+            color: #e52335;
+            font-size: clamp(48px, 12vw, 76px);
+            line-height: .95;
+            text-shadow: 0 3px 4px rgba(0,0,0,.2);
+        }
+
+        .heart-caption {
+            margin-top: 4px;
+            color: #8d5362;
+            font-size: 8px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .heart-button.is-spinning .heart {
+            animation: heartbeat .65s infinite alternate;
+        }
+
+        @keyframes heartbeat {
+            from { transform: scale(1); }
+            to { transform: scale(1.12); }
+        }
+
+        .result {
+            width: min(100%, 420px);
+            min-height: 72px;
+            margin: 0 auto;
+            padding: 12px 15px;
+            border: 1px solid #eadde1;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            transition: .3s;
+        }
+
+        .result.is-revealed,
+        .result.show {
+            background: #fff0f4;
+            border-color: #edb7c7;
+            transform: scale(1.015);
+        }
+
+        .result span {
+            color: #9b6376;
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+
+        .result strong {
+            color: #17113f;
+            font-family: Georgia, serif;
+            font-size: clamp(17px, 4vw, 21px);
+        }
+
+        .instruction {
+            margin: 13px 0 0;
+            color: #918994;
+            font-size: 11px;
+        }
+
+        footer {
+            padding: 14px 10px;
+            border-top: 1px solid #eee7e9;
+            color: #9a929b;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        footer span {
+            color: #e34b70;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .app {
+                width: 100%;
+                min-height: 100vh;
+                box-shadow: none;
+            }
+
+            .topbar {
+                min-height: 80px;
+                padding: 13px 18px;
+            }
+
+            .content {
+                padding: 25px 15px;
+            }
+
+            .wheel-container {
+                width: min(100%, 420px);
+            }
+        }
+
+        @media (max-width: 370px) {
+            .segment-label {
+                font-size: 10px;
+            }
+
+            .content {
+                padding-inline: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="app">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">♥</div>
+                <div>
+                    <h2>Roleta do Amor</h2>
+                    <p>do Pablo e da Val</p>
+                </div>
+            </div>
+            <span class="header-heart">♥</span>
+        </header>
+
+        <section class="content">
+
+            <h1>Roleta do Amor</h1>
+
+            <p class="subtitle">
+                Um toque no coração e deixe o amor decidir.
+            </p>
+
+            <div class="wheel-container">
+
+                <div class="pointer"></div>
+
+                <svg id="wheel"
+                     viewBox="0 0 420 420"
+                     class="wheel">
+                    <g id="wheelArtwork"></g>
+                </svg>
+
+                <button id="heartButton"
+                        class="heart-button"
+                        aria-label="Girar roleta">
+                    <span class="heart">♥</span>
+                    <span class="heart-caption">TOQUE</span>
+                </button>
+
+            </div>
+
+            <div class="result" id="result">
+                <span id="resultLabel">A SORTE ESTÁ LANÇADA</span>
+                <strong id="resultText">
+                    Toque no coração para sortear ♥
+                </strong>
+            </div>
+
+            <p class="instruction" id="instruction">
+                Toque no coração para começar
+            </p>
+
+        </section>
+
+        <footer>
+            Roleta do Amor do Pablo e da Val <span>♥</span>
+        </footer>
+
+    </main>
+
+    <script>
+        const OPTIONS = [
+            "Beijo de Língua",
+            "Val Decide",
+            "Pablo Decide",
+            "Cheiro no Cangote",
+            "Mordida nas Costas",
+            "Beijo do Homem-Aranha",
+            "Selinho",
+            "Abraço Apertado"
+        ];
+
+        const COLORS = [
+            "#c90018",
+            "#111111",
+            "#c90018",
+            "#111111",
+            "#c90018",
+            "#111111",
+            "#c90018",
+            "#111111"
+        ];
+
+        const CENTER = 210;
+        const RADIUS = 202;
+        const SLICE = 360 / OPTIONS.length;
+        const SPIN_DURATION = 8000;
+
+        const wheel = document.getElementById("wheel");
+        const wheelArtwork = document.getElementById("wheelArtwork");
+        const heartButton = document.getElementById("heartButton");
+
+        const result = document.getElementById("result");
+        const resultLabel = document.getElementById("resultLabel");
+        const resultText = document.getElementById("resultText");
+        const instruction = document.getElementById("instruction");
+
+        let currentRotation = 0;
+        let isSpinning = false;
+        let audioContext = null;
+        let clickTimer = null;
+        let spinStartTime = 0;
+
+        // POSICIONAMENTO
+
+        function polarToCartesian(cx, cy, radius, angle) {
+            const radians = angle * Math.PI / 180;
+
+            return {
+                x: cx + radius * Math.cos(radians),
+                y: cy + radius * Math.sin(radians)
+            };
+        }
+
+        // QUEBRA DOS NOMES
+
+        function splitLabel(text, maxLength = 13) {
+            const words = text.toUpperCase().split(" ");
+            const lines = [];
+            let line = "";
+
+            words.forEach(word => {
+                const testLine = line ? `${line} ${word}` : word;
+
+                if (testLine.length > maxLength && line) {
+                    lines.push(line);
+                    line = word;
+                } else {
+                    line = testLine;
+                }
+            });
+
+            if (line) lines.push(line);
+
+            return lines;
+        }
+
+        // DESENHO DA ROLETA
+
+        function drawWheel() {
+            wheelArtwork.innerHTML = "";
+
+            OPTIONS.forEach((option, index) => {
+                const startAngle = -105 + index * SLICE;
+                const endAngle = startAngle + SLICE;
+
+                const start = polarToCartesian(
+                    CENTER, CENTER, RADIUS, startAngle
+                );
+
+                const end = polarToCartesian(
+                    CENTER, CENTER, RADIUS, endAngle
+                );
+
+                const path = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "path"
+                );
+
+                path.setAttribute(
+                    "d",
+                    `M ${CENTER} ${CENTER} L ${start.x} ${start.y} A ${RADIUS} ${RADIUS} 0 0 1 ${end.x} ${end.y} Z`
+                );
+
+                path.setAttribute("fill", COLORS[index]);
+                path.setAttribute("stroke", "#ffffff");
+                path.setAttribute("stroke-width", "2");
+
+                wheelArtwork.appendChild(path);
+
+                const middleAngle = startAngle + SLICE / 2;
+
+                const labelPosition = polarToCartesian(
+                    CENTER, CENTER, 140, middleAngle
+                );
+
+                const textGroup = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "g"
+                );
+
+                textGroup.setAttribute(
+                    "transform",
+                    `rotate(${middleAngle + 180}, ${labelPosition.x}, ${labelPosition.y})`
+                );
+
+                const text = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "text"
+                );
+
+                text.setAttribute("x", labelPosition.x);
+                text.setAttribute("y", labelPosition.y);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("fill", "#ffffff");
+                text.setAttribute("font-size", "12");
+                text.setAttribute("font-weight", "900");
+                text.setAttribute("stroke", "#000000");
+                text.setAttribute("stroke-width", "0.5");
+                text.setAttribute("paint-order", "stroke");
+
+                const lines = splitLabel(option, 13);
+                const lineHeight = 15;
+
+                lines.forEach((line, lineIndex) => {
+                    const tspan = document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "tspan"
+                    );
+
+                    tspan.setAttribute("x", labelPosition.x);
+
+                    tspan.setAttribute(
+                        "y",
+                        labelPosition.y +
+                        (lineIndex - (lines.length - 1) / 2) * lineHeight
+                    );
+
+                    tspan.textContent = line;
+                    text.appendChild(tspan);
+                });
+
+                textGroup.appendChild(text);
+                wheelArtwork.appendChild(textGroup);
+            });
+        }
+
+        // SISTEMA DE SOM
+
+        function iniciarAudio() {
+            if (!audioContext) {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                if (AudioContextClass) {
+                    audioContext = new AudioContextClass();
+                }
+            }
+
+            if (audioContext && audioContext.state === "suspended") {
+                audioContext.resume();
+            }
+        }
+
+        function tocarClique(volume = 0.045) {
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.type = "square";
+
+            oscillator.frequency.setValueAtTime(
+                950,
+                audioContext.currentTime
+            );
+
+            gain.gain.setValueAtTime(
+                volume,
+                audioContext.currentTime
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.001,
+                audioContext.currentTime + 0.035
+            );
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.04);
+        }
+
+        function tocarVitoria() {
+            if (!audioContext) return;
+
+            const notas = [523.25, 659.25, 783.99, 1046.50];
+
+            notas.forEach((frequencia, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                const inicio = audioContext.currentTime + index * 0.13;
+
+                oscillator.type = "sine";
+
+                oscillator.frequency.setValueAtTime(
+                    frequencia,
+                    inicio
+                );
+
+                gain.gain.setValueAtTime(0.001, inicio);
+
+                gain.gain.linearRampToValueAtTime(
+                    0.18,
+                    inicio + 0.02
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    0.001,
+                    inicio + 0.35
+                );
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.start(inicio);
+                oscillator.stop(inicio + 0.36);
+            });
+        }
+
+        // CLIQUES DURANTE O GIRO
+
+        function iniciarCliques() {
+            spinStartTime = performance.now();
+
+            function agendarClique() {
+                if (!isSpinning) return;
+
+                const elapsed = performance.now() - spinStartTime;
+                const progress = Math.min(elapsed / SPIN_DURATION, 1);
+
+                tocarClique();
+
+                const interval =
+                    65 + Math.pow(progress, 2.8) * 480;
+
+                clickTimer = setTimeout(
+                    agendarClique,
+                    interval
+                );
+            }
+
+            agendarClique();
+        }
+
+        function pararCliques() {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+        }
+
+        // IDENTIFICAR RESULTADO
+
+        function getSelectedOption() {
+            const finalAngle =
+                ((currentRotation % 360) + 360) % 360;
+
+            const angleAtPointer =
+                (15 - finalAngle + 360) % 360;
+
+            const selectedIndex = Math.floor(
+                angleAtPointer / SLICE
+            );
+
+            return OPTIONS[selectedIndex];
+        }
+
+        // GIRAR ROLETA
+
+        function spinWheel() {
+            if (isSpinning) return;
+
+            iniciarAudio();
+
+            isSpinning = true;
+
+            result.classList.remove("show");
+            resultText.textContent = "";
+            resultLabel.textContent = "Resultado";
+
+            instruction.textContent =
+                "A sorte está sendo lançada...";
+
+            heartButton.classList.add("is-spinning");
+
+            const randomAngle = Math.random() * 360;
+            const extraTurns = 3 + Math.floor(Math.random() * 3);
+
+            const totalRotation =
+                extraTurns * 360 + randomAngle;
+
+            currentRotation += totalRotation;
+
+            // Inicia a animação de 8 segundos
+            wheel.style.transform =
+                `rotate(${currentRotation}deg)`;
+
+            iniciarCliques();
+
+            let finished = false;
+            let fallbackTimer;
+
+            function finishSpin() {
+                if (finished) return;
+
+                finished = true;
+
+                clearTimeout(fallbackTimer);
+
+                wheel.removeEventListener(
+                    "transitionend",
+                    onTransitionEnd
+                );
+
+                isSpinning = false;
+                pararCliques();
+
+                heartButton.classList.remove("is-spinning");
+
+                const selectedOption = getSelectedOption();
+
+                resultText.textContent = selectedOption;
+                resultLabel.textContent = "A opção sorteada foi:";
+                result.classList.add("show");
+
+                instruction.textContent =
+                    "Que comece o momento especial! ❤️";
+
+                tocarVitoria();
+            }
+
+            function onTransitionEnd(event) {
+                if (event.propertyName !== "transform") return;
+
+                finishSpin();
+            }
+
+            wheel.addEventListener(
+                "transitionend",
+                onTransitionEnd
+            );
+
+            // Segurança: revela o resultado após o tempo completo
+            fallbackTimer = setTimeout(
+                finishSpin,
+                SPIN_DURATION + 500
+            );
+        }
+
+        // INICIALIZAÇÃO
+
+        drawWheel();
+
+        heartButton.addEventListener("click", spinWheel);
+    </script>
+
+</body>
+</html>
