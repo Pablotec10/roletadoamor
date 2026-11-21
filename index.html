@@ -60,7 +60,7 @@
             border-radius: 13px;
             color: white;
             font-size: 25px;
-            background: linear-gradient(145deg, #ff7596, #d92f65);
+            background: linear-gradient(145deg,#ff7596,#d92f65);
         }
 
         .brand h2 {
@@ -86,7 +86,7 @@
 
         h1 {
             margin: 4px 0 7px;
-            font-size: clamp(28px, 6vw, 38px);
+            font-size: clamp(28px,6vw,38px);
             font-weight: 400;
             color: #101010;
         }
@@ -99,22 +99,21 @@
 
         .wheel-container {
             position: relative;
-            width: min(100%, 420px);
+            width: min(100%,420px);
             aspect-ratio: 1;
             margin: 0 auto 23px;
             padding: 6px;
             border-radius: 50%;
-            background: linear-gradient(145deg, #ffe18a, #e4a72c);
+            background: linear-gradient(145deg,#ffe18a,#e4a72c);
             box-shadow: 0 7px 18px rgba(0,0,0,.16);
         }
 
-        /* GIRO GARANTIDO DE 8 SEGUNDOS */
         .wheel {
             display: block;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            transition: transform 8s cubic-bezier(.10, .72, .10, 1) !important;
+            transition: transform 8s cubic-bezier(.10,.72,.10,1) !important;
             will-change: transform;
         }
 
@@ -126,13 +125,13 @@
         .segment-label {
             fill: white;
             font-family: Arial, sans-serif;
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 10px;
+            font-weight: 900;
             text-anchor: middle;
             dominant-baseline: middle;
             paint-order: stroke;
             stroke: rgba(0,0,0,.65);
-            stroke-width: 2px;
+            stroke-width: 1.5px;
             stroke-linejoin: round;
             pointer-events: none;
         }
@@ -156,7 +155,7 @@
             z-index: 6;
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%,-50%);
             width: 31%;
             aspect-ratio: 1;
             border: 5px solid white;
@@ -167,12 +166,12 @@
             justify-content: center;
             padding: 0;
             cursor: pointer;
-            background: radial-gradient(circle, white, #fff0f3 72%, #f6cbd5);
+            background: radial-gradient(circle,white,#fff0f3 72%,#f6cbd5);
             box-shadow: 0 2px 12px rgba(0,0,0,.25);
         }
 
         .heart-button:active {
-            transform: translate(-50%, -50%) scale(.94);
+            transform: translate(-50%,-50%) scale(.94);
         }
 
         .heart-button:disabled {
@@ -181,7 +180,7 @@
 
         .heart {
             color: #e52335;
-            font-size: clamp(48px, 12vw, 76px);
+            font-size: clamp(48px,12vw,76px);
             line-height: .95;
             text-shadow: 0 3px 4px rgba(0,0,0,.2);
         }
@@ -204,7 +203,7 @@
         }
 
         .result {
-            width: min(100%, 420px);
+            width: min(100%,420px);
             min-height: 72px;
             margin: 0 auto;
             padding: 12px 15px;
@@ -218,8 +217,7 @@
             transition: .3s;
         }
 
-        .result.is-revealed,
-        .result.show {
+        .result.is-revealed {
             background: #fff0f4;
             border-color: #edb7c7;
             transform: scale(1.015);
@@ -234,8 +232,8 @@
 
         .result strong {
             color: #17113f;
-            font-family: Georgia, serif;
-            font-size: clamp(17px, 4vw, 21px);
+            font-family: Georgia,serif;
+            font-size: clamp(17px,4vw,21px);
         }
 
         .instruction {
@@ -256,7 +254,7 @@
             color: #e34b70;
         }
 
-        @media (max-width: 520px) {
+        @media(max-width:520px) {
             body {
                 padding: 0;
                 background: white;
@@ -278,13 +276,13 @@
             }
 
             .wheel-container {
-                width: min(100%, 420px);
+                width: min(100%,420px);
             }
         }
 
-        @media (max-width: 370px) {
+        @media(max-width:370px) {
             .segment-label {
-                font-size: 10px;
+                font-size: 9px;
             }
 
             .content {
@@ -306,6 +304,7 @@
                     <p>do Pablo e da Val</p>
                 </div>
             </div>
+
             <span class="header-heart">♥</span>
         </header>
 
@@ -321,15 +320,19 @@
 
                 <div class="pointer"></div>
 
-                <svg id="wheel"
-                     viewBox="0 0 420 420"
-                     class="wheel">
+                <svg
+                    id="wheel"
+                    viewBox="0 0 420 420"
+                    class="wheel"
+                >
                     <g id="wheelArtwork"></g>
                 </svg>
 
-                <button id="heartButton"
-                        class="heart-button"
-                        aria-label="Girar roleta">
+                <button
+                    id="heartButton"
+                    class="heart-button"
+                    aria-label="Girar roleta"
+                >
                     <span class="heart">♥</span>
                     <span class="heart-caption">TOQUE</span>
                 </button>
@@ -356,18 +359,26 @@
     </main>
 
     <script>
+        // ==========================================
+        // OPÇÕES DA ROLETA
+        // ==========================================
+
         const OPTIONS = [
             "Beijo de Língua",
             "Val Decide",
             "Pablo Decide",
             "Cheiro no Cangote",
-            "Mordida nas Costas",
-            "Beijo do Homem-Aranha",
+            "Mordidinha",
+            "Beijo de Cabeça pra Baixo",
             "Selinho",
-            "Abraço Apertado"
+            "Abraço Apertado",
+            "Declaração de Amor",
+            "Impressione"
         ];
 
         const COLORS = [
+            "#c90018",
+            "#111111",
             "#c90018",
             "#111111",
             "#c90018",
@@ -383,22 +394,24 @@
         const SLICE = 360 / OPTIONS.length;
         const SPIN_DURATION = 8000;
 
-        const wheel = document.getElementById("wheel");
-        const wheelArtwork = document.getElementById("wheelArtwork");
-        const heartButton = document.getElementById("heartButton");
-
-        const result = document.getElementById("result");
-        const resultLabel = document.getElementById("resultLabel");
-        const resultText = document.getElementById("resultText");
-        const instruction = document.getElementById("instruction");
-
         let currentRotation = 0;
         let isSpinning = false;
-        let audioContext = null;
         let clickTimer = null;
-        let spinStartTime = 0;
+        let finishTimer = null;
+        let audioContext = null;
 
-        // POSICIONAMENTO
+        const wheel = document.getElementById("wheel");
+        const artwork = document.getElementById("wheelArtwork");
+        const heartButton = document.getElementById("heartButton");
+        const result = document.getElementById("result");
+        const resultText = document.getElementById("resultText");
+        const resultLabel = document.getElementById("resultLabel");
+        const instruction = document.getElementById("instruction");
+
+
+        // ==========================================
+        // DESENHO DA ROLETA
+        // ==========================================
 
         function polarToCartesian(cx, cy, radius, angle) {
             const radians = angle * Math.PI / 180;
@@ -409,66 +422,84 @@
             };
         }
 
-        // QUEBRA DOS NOMES
+        function createSegmentPath(startAngle, endAngle) {
+            const start = polarToCartesian(
+                CENTER,
+                CENTER,
+                RADIUS,
+                startAngle
+            );
 
-        function splitLabel(text, maxLength = 13) {
+            const end = polarToCartesian(
+                CENTER,
+                CENTER,
+                RADIUS,
+                endAngle
+            );
+
+            const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+
+            return `
+                M ${CENTER} ${CENTER}
+                L ${start.x} ${start.y}
+                A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${end.x} ${end.y}
+                Z
+            `;
+        }
+
+        function splitLabel(text, maxLength = 11) {
             const words = text.toUpperCase().split(" ");
             const lines = [];
-            let line = "";
+            let currentLine = "";
 
             words.forEach(word => {
-                const testLine = line ? `${line} ${word}` : word;
+                const testLine = currentLine
+                    ? currentLine + " " + word
+                    : word;
 
-                if (testLine.length > maxLength && line) {
-                    lines.push(line);
-                    line = word;
+                if (testLine.length > maxLength && currentLine) {
+                    lines.push(currentLine);
+                    currentLine = word;
                 } else {
-                    line = testLine;
+                    currentLine = testLine;
                 }
             });
 
-            if (line) lines.push(line);
+            if (currentLine) {
+                lines.push(currentLine);
+            }
 
             return lines;
         }
 
-        // DESENHO DA ROLETA
-
         function drawWheel() {
-            wheelArtwork.innerHTML = "";
+            artwork.innerHTML = "";
 
             OPTIONS.forEach((option, index) => {
-                const startAngle = -105 + index * SLICE;
+                const startAngle = -90 + index * SLICE;
                 const endAngle = startAngle + SLICE;
+                const middleAngle = startAngle + SLICE / 2;
 
-                const start = polarToCartesian(
-                    CENTER, CENTER, RADIUS, startAngle
-                );
-
-                const end = polarToCartesian(
-                    CENTER, CENTER, RADIUS, endAngle
-                );
-
-                const path = document.createElementNS(
+                const segment = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "path"
                 );
 
-                path.setAttribute(
+                segment.setAttribute(
                     "d",
-                    `M ${CENTER} ${CENTER} L ${start.x} ${start.y} A ${RADIUS} ${RADIUS} 0 0 1 ${end.x} ${end.y} Z`
+                    createSegmentPath(startAngle, endAngle)
                 );
 
-                path.setAttribute("fill", COLORS[index]);
-                path.setAttribute("stroke", "#ffffff");
-                path.setAttribute("stroke-width", "2");
+                segment.setAttribute("fill", COLORS[index]);
+                segment.setAttribute("class", "segment");
 
-                wheelArtwork.appendChild(path);
-
-                const middleAngle = startAngle + SLICE / 2;
+                artwork.appendChild(segment);
 
                 const labelPosition = polarToCartesian(
-                    CENTER, CENTER, 140, middleAngle
+                    CENTER,
+                    CENTER,
+                    137,
+                    middleAngle
                 );
 
                 const textGroup = document.createElementNS(
@@ -481,49 +512,52 @@
                     `rotate(${middleAngle + 180}, ${labelPosition.x}, ${labelPosition.y})`
                 );
 
-                const text = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "text"
-                );
-
-                text.setAttribute("x", labelPosition.x);
-                text.setAttribute("y", labelPosition.y);
-                text.setAttribute("text-anchor", "middle");
-                text.setAttribute("dominant-baseline", "middle");
-                text.setAttribute("fill", "#ffffff");
-                text.setAttribute("font-size", "12");
-                text.setAttribute("font-weight", "900");
-                text.setAttribute("stroke", "#000000");
-                text.setAttribute("stroke-width", "0.5");
-                text.setAttribute("paint-order", "stroke");
-
-                const lines = splitLabel(option, 13);
-                const lineHeight = 15;
+                const lines = splitLabel(option, 11);
+                const lineHeight = 13;
+                const startY = -((lines.length - 1) * lineHeight) / 2;
 
                 lines.forEach((line, lineIndex) => {
-                    const tspan = document.createElementNS(
+                    const text = document.createElementNS(
                         "http://www.w3.org/2000/svg",
-                        "tspan"
+                        "text"
                     );
 
-                    tspan.setAttribute("x", labelPosition.x);
-
-                    tspan.setAttribute(
+                    text.setAttribute("x", labelPosition.x);
+                    text.setAttribute(
                         "y",
-                        labelPosition.y +
-                        (lineIndex - (lines.length - 1) / 2) * lineHeight
+                        labelPosition.y + startY + lineIndex * lineHeight
                     );
 
-                    tspan.textContent = line;
-                    text.appendChild(tspan);
+                    text.setAttribute("class", "segment-label");
+                    text.textContent = line;
+
+                    textGroup.appendChild(text);
                 });
 
-                textGroup.appendChild(text);
-                wheelArtwork.appendChild(textGroup);
+                artwork.appendChild(textGroup);
             });
+
+            const border = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+
+            border.setAttribute("cx", CENTER);
+            border.setAttribute("cy", CENTER);
+            border.setAttribute("r", RADIUS);
+            border.setAttribute("fill", "none");
+            border.setAttribute("stroke", "#f8d77f");
+            border.setAttribute("stroke-width", "3");
+
+            artwork.appendChild(border);
         }
 
-        // SISTEMA DE SOM
+        drawWheel();
+
+
+        // ==========================================
+        // EFEITOS SONOROS
+        // ==========================================
 
         function iniciarAudio() {
             if (!audioContext) {
@@ -546,8 +580,7 @@
             const oscillator = audioContext.createOscillator();
             const gain = audioContext.createGain();
 
-            oscillator.type = "square";
-
+            oscillator.type = "sine";
             oscillator.frequency.setValueAtTime(
                 950,
                 audioContext.currentTime
@@ -560,26 +593,32 @@
 
             gain.gain.exponentialRampToValueAtTime(
                 0.001,
-                audioContext.currentTime + 0.035
+                audioContext.currentTime + 0.045
             );
 
             oscillator.connect(gain);
             gain.connect(audioContext.destination);
 
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.04);
+            oscillator.stop(audioContext.currentTime + 0.05);
         }
 
         function tocarVitoria() {
             if (!audioContext) return;
 
-            const notas = [523.25, 659.25, 783.99, 1046.50];
+            const notas = [
+                523.25,
+                659.25,
+                783.99,
+                1046.50
+            ];
 
             notas.forEach((frequencia, index) => {
                 const oscillator = audioContext.createOscillator();
                 const gain = audioContext.createGain();
 
-                const inicio = audioContext.currentTime + index * 0.13;
+                const inicio =
+                    audioContext.currentTime + index * 0.13;
 
                 oscillator.type = "sine";
 
@@ -588,35 +627,38 @@
                     inicio
                 );
 
-                gain.gain.setValueAtTime(0.001, inicio);
+                gain.gain.setValueAtTime(0.0001, inicio);
 
-                gain.gain.linearRampToValueAtTime(
-                    0.18,
-                    inicio + 0.02
+                gain.gain.exponentialRampToValueAtTime(
+                    0.13,
+                    inicio + 0.025
                 );
 
                 gain.gain.exponentialRampToValueAtTime(
                     0.001,
-                    inicio + 0.35
+                    inicio + 0.32
                 );
 
                 oscillator.connect(gain);
                 gain.connect(audioContext.destination);
 
                 oscillator.start(inicio);
-                oscillator.stop(inicio + 0.36);
+                oscillator.stop(inicio + 0.34);
             });
         }
 
-        // CLIQUES DURANTE O GIRO
+
+        // ==========================================
+        // SOM DE CLIQUES DURANTE O GIRO
+        // ==========================================
 
         function iniciarCliques() {
-            spinStartTime = performance.now();
+            const startTime = performance.now();
 
-            function agendarClique() {
+            function scheduleClick() {
                 if (!isSpinning) return;
 
-                const elapsed = performance.now() - spinStartTime;
+                const elapsed = performance.now() - startTime;
                 const progress = Math.min(elapsed / SPIN_DURATION, 1);
 
                 tocarClique();
@@ -625,36 +667,56 @@
                     65 + Math.pow(progress, 2.8) * 480;
 
                 clickTimer = setTimeout(
-                    agendarClique,
+                    scheduleClick,
                     interval
                 );
             }
 
-            agendarClique();
+            scheduleClick();
         }
 
         function pararCliques() {
-            clearTimeout(clickTimer);
-            clickTimer = null;
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+            }
         }
 
-        // IDENTIFICAR RESULTADO
 
-        function getSelectedOption() {
-            const finalAngle =
-                ((currentRotation % 360) + 360) % 360;
+        // ==========================================
+        // FINALIZAÇÃO DO GIRO
+        // ==========================================
 
-            const angleAtPointer =
-                (15 - finalAngle + 360) % 360;
+        function finishSpin(selectedIndex) {
+            if (!isSpinning) return;
 
-            const selectedIndex = Math.floor(
-                angleAtPointer / SLICE
-            );
+            isSpinning = false;
 
-            return OPTIONS[selectedIndex];
+            pararCliques();
+
+            if (finishTimer) {
+                clearTimeout(finishTimer);
+                finishTimer = null;
+            }
+
+            heartButton.disabled = false;
+            heartButton.classList.remove("is-spinning");
+
+            result.classList.add("is-revealed");
+
+            resultLabel.textContent = "O AMOR DECIDIU ♥";
+            resultText.textContent = OPTIONS[selectedIndex];
+
+            instruction.textContent =
+                "Aproveitem o momento!";
+
+            tocarVitoria();
         }
 
+
+        // ==========================================
         // GIRAR ROLETA
+        // ==========================================
 
         function spinWheel() {
             if (isSpinning) return;
@@ -663,84 +725,70 @@
 
             isSpinning = true;
 
-            result.classList.remove("show");
-            resultText.textContent = "";
-            resultLabel.textContent = "Resultado";
-
-            instruction.textContent =
-                "A sorte está sendo lançada...";
-
+            heartButton.disabled = true;
             heartButton.classList.add("is-spinning");
 
-            const randomAngle = Math.random() * 360;
-            const extraTurns = 3 + Math.floor(Math.random() * 3);
+            result.classList.remove("is-revealed");
 
-            const totalRotation =
-                extraTurns * 360 + randomAngle;
+            resultLabel.textContent = "A SORTE ESTÁ LANÇADA";
+            resultText.textContent = "Girando... ♥";
 
-            currentRotation += totalRotation;
+            instruction.textContent =
+                "Deixe o amor decidir...";
 
-            // Inicia a animação de 8 segundos
+            const selectedIndex = Math.floor(
+                Math.random() * OPTIONS.length
+            );
+
+            const selectedCenter =
+                selectedIndex * SLICE + SLICE / 2;
+
+            const targetRotation =
+                (360 - (selectedCenter % 360)) % 360;
+
+            const currentAngle =
+                ((currentRotation % 360) + 360) % 360;
+
+            const adjustment =
+                (targetRotation - currentAngle + 360) % 360;
+
+            const extraTurns =
+                3 + Math.floor(Math.random() * 3);
+
+            currentRotation +=
+                extraTurns * 360 + adjustment;
+
             wheel.style.transform =
                 `rotate(${currentRotation}deg)`;
 
             iniciarCliques();
 
-            let finished = false;
-            let fallbackTimer;
-
-            function finishSpin() {
-                if (finished) return;
-
-                finished = true;
-
-                clearTimeout(fallbackTimer);
-
-                wheel.removeEventListener(
-                    "transitionend",
-                    onTransitionEnd
-                );
-
-                isSpinning = false;
-                pararCliques();
-
-                heartButton.classList.remove("is-spinning");
-
-                const selectedOption = getSelectedOption();
-
-                resultText.textContent = selectedOption;
-                resultLabel.textContent = "A opção sorteada foi:";
-                result.classList.add("show");
-
-                instruction.textContent =
-                    "Que comece o momento especial! ❤️";
-
-                tocarVitoria();
-            }
-
-            function onTransitionEnd(event) {
-                if (event.propertyName !== "transform") return;
-
-                finishSpin();
-            }
+            finishTimer = setTimeout(() => {
+                finishSpin(selectedIndex);
+            }, SPIN_DURATION + 500);
 
             wheel.addEventListener(
                 "transitionend",
-                onTransitionEnd
-            );
+                function onTransitionEnd(event) {
+                    if (event.propertyName !== "transform") return;
 
-            // Segurança: revela o resultado após o tempo completo
-            fallbackTimer = setTimeout(
-                finishSpin,
-                SPIN_DURATION + 500
+                    wheel.removeEventListener(
+                        "transitionend",
+                        onTransitionEnd
+                    );
+
+                    finishSpin(selectedIndex);
+                }
             );
         }
 
-        // INICIALIZAÇÃO
 
-        drawWheel();
+        // ==========================================
+        // EVENTO DO CORAÇÃO
+        // ==========================================
 
         heartButton.addEventListener("click", spinWheel);
+
     </script>
 
 </body>
